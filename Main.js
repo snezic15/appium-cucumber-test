@@ -20,14 +20,8 @@ setDefaultTimeout(100 * 1000);
 //Before Cucumber tag, initialise driver
 Before(async function () {
     console.log("Initialise driver"); 
-    
-    try {
-        driver = await new wd.Builder().usingServer("http://localhost:8080/wd/hub").withCapabilities(capabilities).build();
-        console.log("Driver initialised!");  
-    } catch (e) {
-        //Catch and print exceptions
-        console.log(e); 
-    }
+    driver = await new wd.Builder().usingServer("http://localhost:8080/wd/hub").withCapabilities(capabilities).build();
+    console.log("Driver initialised!");  
 })
 
 //Given Cucumber tag, login credentials
@@ -43,6 +37,7 @@ Given(/^I input my credentials$/, async () => {
     
     console.log("Credentials Inputted!")
     } catch (e) { 
+        //Catch and print exceptions
         console.log(e);
     }  
 });
@@ -78,11 +73,6 @@ Then(/^I confirm I have logged in successfully$/, async () => {
 //After Cucumber tag, release driver instance
 After(async function() {
     console.log("Close driver");
-    
-    try {
-        await driver.quit();
-        console.log("Driver has been closed!"); 
-    } catch (e) {
-        console.log(e);
-    }
+    await driver.quit();
+    console.log("Driver has been closed!"); 
   })
