@@ -45,6 +45,7 @@ Given(/^I input my credentials$/, async () => {
 //When Cucumber tag, select the login button     
 When(/^I click the login button$/, async () => {  
     try {
+        //Find and click login button
         const login = await driver.findElement(By.id("login"));
         await login.click();   
         
@@ -57,14 +58,34 @@ When(/^I click the login button$/, async () => {
 //Then Cucumber tag, verify login is completed
 Then(/^I confirm I have logged in successfully$/, async () => {
     try {
-        //Wait for a logout button on page
-        await driver.wait(until.elementLocated(By.id("logout"), 5000));
-        //Check for logout elements on page
-        var logout = await driver.findElements(By.id("logout"));
-        //Assert more than 0 elements are present
-        assert.notEqual(logout.length, 0);
+        //Wait status message ID to be present on page reload after login
+        await driver.wait(until.elementLocated(By.id("status_message"), 5000));
+        //Find status message ID
+        var statusMessage = await driver.findElement(By.id("status_message"));
+        //Assert user has logged in by confirming login message
+        assert.equal(statusMessage.getAttribute(“text”).toLowerCase(), "logged in");
     
-        console.log("Logout button/s present!");  
+        console.log("User has confirmed login!");  
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+//Second Then Cucumber tag, logout
+Then(/^I log out of the account successfully$/, async () => {
+    try {
+        //Find and click logout button
+        const logout = await driver.findElement(By.id("logout"));
+        await logout.click();  
+        
+        //Wait for a logout, find login button on page
+        await driver.wait(until.elementLocated(By.id("login"), 5000));
+        //Check for login button elements on page
+        var login = await driver.findElements(By.id("login"));
+        //Assert more than 0 elements are present
+        assert.notEqual(login.length, 0);
+    
+        console.log("Logout complete! Successfully found login button!");  
     } catch (e) {
         console.log(e);
     }
