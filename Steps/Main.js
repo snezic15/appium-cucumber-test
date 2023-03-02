@@ -7,7 +7,7 @@ var until = wd.until;
 
 let driver;
 
-//Set APK
+//Set fake testing APK package
 var capabilities = {
     platformName: "Android",
     app: "C:/Projects/Appium-Cucumber-Test/file.apk",
