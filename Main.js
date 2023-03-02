@@ -8,7 +8,7 @@ var until = wd.until;
 let driver;
 
 //Set APK
-var desiredCaps = {
+var capabilities = {
     platformName: "Android",
     app: "C:/Projects/Appium-Cucumber-Test/file.apk",
     browserName: '';
@@ -22,8 +22,7 @@ Before(async function () {
     console.log("Initialise driver"); 
     
     try {
-        driver = await new wd.Builder().usingServer("http://localhost:8080/wd/hub").withCapabilities(desiredCaps).build();
-    
+        driver = await new wd.Builder().usingServer("http://localhost:8080/wd/hub").withCapabilities(capabilities).build();
         console.log("Driver initialised!");  
     } catch (e) {
         //Catch and print exceptions
@@ -54,7 +53,7 @@ When(/^I click the login button$/, async () => {
         const login = await driver.findElement(By.id("login"));
         await login.click();   
         
-         console.log("Login Button Complete!")
+        console.log("Login Button Complete!")
     } catch (e) {
         console.log(e);
     }
@@ -82,7 +81,6 @@ After(async function() {
     
     try {
         await driver.quit();
-    
         console.log("Driver has been closed!"); 
     } catch (e) {
         console.log(e);
